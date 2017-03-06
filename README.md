@@ -1,2 +1,2 @@
 # CarRent
-Car rent system in JAVA 
+Car rental system in JAVA 
