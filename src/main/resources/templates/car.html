@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header">dupa</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var message = [[${message}]];
+    $(document).ready(function () {
+
+        if (message != null)
+            alert(message);
+    })
+    /*]]>*/
+</script>
+
+<a onclick="window.location.assign('/cars')" type="button" class="btn btn-info" aria-label="Back">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Back
+</a>
+<div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>model</th>
+            <th>brand</th>
+            <th>year</th>
+            <th>engine</th>
+            <th>description</th>
+            <th>status</th>
+
+        </tr>
+        </thead>
+
+        <tr th:each="cars : ${cars}">
+            <td th:border="1" th:text="${cars.id}">1</td>
+            <td th:text="${cars.model}"/>
+            <td th:text="${cars.brand.name}"/>
+            <td th:text="${cars.production}"/>
+            <td th:text="${cars.engine}"/>
+            <td th:text="${cars.description}"/>
+            <td th:text="${cars.available}"/>
+
+
+            <td>
+                <a th:href="'/cars/delete/'+${cars.id}">
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </a></td>
+
+
+        </tr>
+    </table>
+
+    Active:
+    <table class="table table-striped">
+        <tr th:each="rents : ${rents}" th:if="${rents.active}">
+
+
+            <td th:border="1" th:text="${rents.user.name}"/>
+            <td th:border="1" th:text="${rents.user.lastName}"/>
+            <td th:border="1" th:text="${rents.user.peselnum}"/>
+            <td th:border="1" th:text="${rents.user.mail}"/>
+            <td th:border="1" th:text="${rents.user.phoneNumber}"/>
+
+            <td th:border="1" th:text="${rents.date_from}"/>
+
+            <td>
+                <a th:href="'/rent/end/'+${rents.id}" type="button" class="btn btn-info">End rent</a>
+            </td>
+        </tr>
+    </table>
+
+
+    History:
+    <table class="table table-striped">
+        <tr th:each="rents : ${rents}" th:unless="${rents.active}">
+
+            <td th:border="1" th:text="${rents.user.name}"/>
+            <td th:border="1" th:text="${rents.user.lastName}"/>
+            <td th:border="1" th:text="${rents.user.peselnum}"/>
+            <td th:border="1" th:text="${rents.user.mail}"/>
+            <td th:border="1" th:text="${rents.user.phoneNumber}"/>
+
+            <td th:border="1" th:text="${rents.date_from}"/>
+            <td th:border="1" th:text="${rents.date_to}"/>
+        </tr>
+    </table>
+
+</div>
+</body>
+
+</html>

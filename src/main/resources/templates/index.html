@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:replace="fragments/header :: header">dupa</div>
+
+<div>
+    <button onclick="showAdd()" type="button" class="btn btn-primary">New</button>
+    <input id="search" th:required="required" type="text" name="lastName"/>
+    <button onclick="funsearch()" type="button" class="btn btn-info">Find</button>
+
+
+    <table style="height: 100%" class="table table-striped">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>last name</th>
+            <th>phone</th>
+            <th>peselnum</th>
+            <th>mail</th>
+        </tr>
+        </thead>
+        <tr name="tr_add">
+            <form action="/user" method="post">
+                <td></td>
+                <td><input th:required="required" type="text" name="name"/></td>
+                <td><input th:required="required" type="text" name="lastName"/></td>
+                <td><input th:required="required" type="text" name="phoneNumber"/></td>
+                <td><input th:required="required" type="text" name="peselnum"/></td>
+                <td><input th:required="required" type="text" name="mail"/></td>
+                <td><input type="submit" class="btn btn-success" value="Add"/></td>
+            </form>
+        </tr>
+        <tr th:each="name : ${name}">
+            <td th:border="1" th:text="${name.id}"/>
+            <td href="#" th:text="${name.name}"/>
+            <td th:text="${name.lastName}"/>
+            <td th:text="${name.phoneNumber}"/>
+            <td th:text="${name.peselnum}"/>
+            <td th:text="${name.mail}"/>
+            <td>
+                <a th:href="'/user/more/'+${name.id}" type="button" class="btn btn-warning">More</a>
+
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+<script th:inline="javascript">
+    $("tr[name='tr_add']").hide();
+    var message = [[${message}]];
+    $(document).ready(function () {
+
+        if (message != null)
+            alert(message);
+    })
+
+    function showAdd() {
+        if (!$("tr[name='tr_add']").is(":visible"))
+            $("tr[name='tr_add']").show();
+        else
+            $("tr[name='tr_add']").hide();
+    }
+
+    function funsearch() {
+        url = $("#search").val();
+        //   $(location).prop('href',')
+        window.location.assign('/index/search/' + url);
+
+    }
+</script>
+</html>

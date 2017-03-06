@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header">dupa</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var message = [[${message}]];
+    $(document).ready(function () {
+
+        if (message != null)
+            alert(message);
+    })
+    /*]]>*/
+</script>
+
+
+<div>
+    <a onclick="window.location.assign('/index')" type="button" class="btn btn-info" aria-label="Back">
+        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Back
+    </a>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>last name</th>
+            <th>phone</th>
+            <th>peselnum</th>
+            <th>mail</th>
+
+        </tr>
+        </thead>
+
+        <tr>
+            <td th:border="1" th:text="${name.id}"/>
+            <td href="#" th:text="${name.name}"/>
+            <td th:text="${name.lastName}"/>
+            <td th:text="${name.phoneNumber}"/>
+            <td th:text="${name.peselnum}"/>
+            <td th:text="${name.mail}"/>
+
+        </tr>
+
+
+    </table>
+
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>model</th>
+            <th>brand</th>
+            <th>year</th>
+            <th>engine</th>
+            <th>description</th>
+            <th>status</th>
+
+        </tr>
+        </thead>
+
+        <tr th:each="cars : ${cars}">
+            <td th:border="1" th:text="${cars.id}">1</td>
+            <td th:text="${cars.model}"/>
+            <td th:text="${cars.brand.name}"/>
+            <td th:text="${cars.production}"/>
+            <td th:text="${cars.engine}"/>
+            <td th:text="${cars.description}"/>
+            <td th:text="${cars.available}"/>
+
+
+            <td>
+
+                <a th:if="${cars.available}" th:href="'/rent/new/'+${name.id}+'/'+${cars.id}">
+                    <button type="button" class="btn btn-info">Select</button>
+                </a></td>
+
+
+        </tr>
+    </table>
+
+    <a target="_blank" th:if="${finish}" th:href="'/rent/new/'+${name.id}+'/'+${cars.id}+'/agreement'">
+        <button type="button" class="btn btn-info">agreement to sign</button>
+    </a>
+
+    <a th:if="${finish}" th:href="'/rent/new/'+${name.id}+'/'+${cars.id}+'/add'">
+        <button type="button" class="btn btn-info">Rent car !!!</button>
+    </a>
+</div>
+</body>
+
+</html>
