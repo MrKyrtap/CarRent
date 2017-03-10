@@ -15,8 +15,11 @@
             <img style="width: 100px" src="http://www.polyomics.gla.ac.uk/images/car_blue_on_white.png"/>
         </div>
         <div class="navbar-collapse collapse">
-            <a class="navbar-brand" href="/index">Users</a>
-            <a class="navbar-brand" href="/cars">Cars</a>
+            <div th:unless="${role}">
+                    </div>
+            <a class="navbar-brand" href="/profile">Profile</a>
+            <a class="navbar-brand" href="/logout">Logout </a>
+
         </div>
     </div>
 </div>

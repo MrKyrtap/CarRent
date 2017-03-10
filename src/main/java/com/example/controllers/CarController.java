@@ -3,11 +3,15 @@ package com.example.controllers;
 import com.example.models.Brand;
 import com.example.models.Car;
 import com.example.models.Rent;
+import com.example.models.User;
 import com.example.repository.BrandRepository;
 import com.example.repository.CarRepository;
 import com.example.repository.RentsRepository;
+import com.example.repository.UserRepository;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,19 +34,26 @@ public class CarController {
     public final CarRepository carRepository;
     public final BrandRepository brandRepository;
     public final RentsRepository rentsRepository;
+    public final UserRepository userRepository;
+
 
     @Autowired
-    public CarController(CarRepository carRepository, BrandRepository brandRepository, RentsRepository rentsRepository) {
+    public CarController(CarRepository carRepository, BrandRepository brandRepository, RentsRepository rentsRepository, UserRepository userRepository) {
         this.carRepository = carRepository;
         this.brandRepository = brandRepository;
         this.rentsRepository = rentsRepository;
+        this.userRepository = userRepository;
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public String show(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        User user = userRepository.findByMail(auth.getName());
         List<Car> carsList = carRepository.findAll();
         List<Brand> brandsList = brandRepository.findAll();
         model.addAttribute("cars", carsList);
+        model.addAttribute("userName", user.getName());
         model.addAttribute("brands", brandsList);
         return "cars";
     }

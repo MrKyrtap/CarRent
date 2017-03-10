@@ -1,11 +1,14 @@
 package com.example.controllers;
 
 import com.example.models.Rent;
+import com.example.models.Role;
 import com.example.models.User;
 import com.example.repository.RentsRepository;
+import com.example.repository.RoleRepository;
 import com.example.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,9 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Created by PatrykGrudnik on 05.12.2016.
@@ -29,12 +32,16 @@ public class UserController {
 
     public final UserRepository userRepository;
     public final RentsRepository rentsRepository;
+    public final RoleRepository roleRepository;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     @Autowired
-    public UserController(UserRepository userRepository, RentsRepository rentsRepository) {
+    public UserController(UserRepository userRepository, RentsRepository rentsRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.rentsRepository = rentsRepository;
+        this.roleRepository = roleRepository;
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -42,8 +49,17 @@ public class UserController {
                       BindingResult bindingResult,
                       HttpServletRequest request,
                       RedirectAttributes redirectAttrs) {
-        String password = hashToMD5(user.getPeselnum());
-        user.setPassword(password);
+        User user2 = userRepository.findOne(user.getId());
+        if (user2 != null){
+            user.setPassword(user2.getPassword());
+            user.setActive(user2.getActive());
+            user.setRoles(user2.getRoles());
+         }else {
+            user.setPassword(bCryptPasswordEncoder.encode("dupa"));
+            Role userRole = roleRepository.findByRole("USER");
+            user.setRoles(new HashSet<>(Arrays.asList(userRole)));
+            user.setActive(1);
+        }
         if (!bindingResult.hasErrors()) {
             userRepository.save(user);
             redirectAttrs.addFlashAttribute("message", "Saved");

@@ -3,6 +3,7 @@ package com.example.controllers;
 import com.example.models.User;
 import com.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class IndexController {
 
     @GetMapping("/index")
     public String index(Model model) {
-        List<User> usersList = userRepository.findAll();
+        List<User> usersList = userRepository.findAll(new Sort(Sort.Direction.ASC,"lastName"));
         model.addAttribute("name", usersList);
 
         return "index";

@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div >
+<div th:replace="fragments/header :: header" ></div>
+</div>
+<div>
+
+
+    <div style=" border: solid;width: auto" th:if="${role}">
+        ADMIN MODE<br/>
+        <a href="/index">Users</a><br/>
+        <a  href="/cars">Cars</a>
+    </div>
+
+   Witaj: <span th:utext="${userName}"></span><br/>
+
+
+
+
+    Rents cars:
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>model</th>
+            <th>brand</th>
+            <th>year</th>
+            <th>engine</th>
+            <th>description</th>
+            <th>status</th>
+
+        </tr>
+        </thead>
+
+        <tr th:each="rents : ${rents}" th:if="${rents.active}">
+
+
+            <td th:border="1" th:text="${rents.car.model}"/>
+            <td th:border="1" th:text="${rents.car.brand.name}"/>
+            <td th:border="1" th:text="${rents.car.production}"/>
+            <td th:border="1" th:text="${rents.car.year}"/>
+
+        </tr>
+    </table>
+
+</div>
+</body>
+
+</html>

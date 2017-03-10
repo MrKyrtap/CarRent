@@ -24,7 +24,9 @@
     /*]]>*/
 </script>
 
-
+<a onclick="window.location.assign('/profile')" type="button" class="btn btn-info" aria-label="Back">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Back
+</a>
 <div>
     <table class="table table-striped">
         <thead>
@@ -39,6 +41,7 @@
 
         </tr>
         </thead>
+        <span th:utext="${userName}"></span>
         <form action="cars/add" method="post">
             <tr>
                 <th>id</th>

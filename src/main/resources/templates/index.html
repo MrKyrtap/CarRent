@@ -9,7 +9,9 @@
 </head>
 <body>
 <div th:replace="fragments/header :: header">dupa</div>
-
+<a onclick="window.location.assign('/profile')" type="button" class="btn btn-info" aria-label="Back">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Back
+</a>
 <div>
     <button onclick="showAdd()" type="button" class="btn btn-primary">New</button>
     <input id="search" th:required="required" type="text" name="lastName"/>
@@ -35,6 +37,7 @@
                 <td><input th:required="required" type="text" name="phoneNumber"/></td>
                 <td><input th:required="required" type="text" name="peselnum"/></td>
                 <td><input th:required="required" type="text" name="mail"/></td>
+
                 <td><input type="submit" class="btn btn-success" value="Add"/></td>
             </form>
         </tr>
