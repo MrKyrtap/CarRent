@@ -8,8 +8,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div >
-<div th:replace="fragments/header :: header" ></div>
+<div>
+    <div th:replace="fragments/header :: header"></div>
 </div>
 <div>
 
@@ -17,40 +17,134 @@
     <div style=" border: solid;width: auto" th:if="${role}">
         ADMIN MODE<br/>
         <a href="/index">Users</a><br/>
-        <a  href="/cars">Cars</a>
+        <a href="/cars">Cars</a>
     </div>
 
-   Witaj: <span th:utext="${userName}"></span><br/>
+
+    <div class="container">
+        <h2>Your profile</h2>
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                <table class="table table-striped">
 
 
+                    <tr>
+                        <td>ID</td>
+                        <td><span th:text="${name.id}"/></td>
+                    </tr>
+                    <tr>
+                        <td>First name</td>
+                        <td><span th:text="${name.name}"/></td>
+                    </tr>
+                    <tr>
+                        <td>Last name</td>
+                        <td><span th:text="${name.lastName}"/></td>
+                    </tr>
+                    <tr>
+                        <td>Phone number</td>
+                        <td><span th:text="${name.phoneNumber}"/></td>
+                    </tr>
+                    <tr>
+                        <td>PESEL</td>
+                        <td><span th:text="${name.peselnum}"/></td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td><span th:text="${name.mail}"/></td>
+                    </tr>
+                
+
+                </table>
 
 
-    Rents cars:
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>model</th>
-            <th>brand</th>
-            <th>year</th>
-            <th>engine</th>
-            <th>description</th>
-            <th>status</th>
+            </div>
 
-        </tr>
-        </thead>
-
-        <tr th:each="rents : ${rents}" th:if="${rents.active}">
+        </div>
+    </div>
 
 
-            <td th:border="1" th:text="${rents.car.model}"/>
-            <td th:border="1" th:text="${rents.car.brand.name}"/>
-            <td th:border="1" th:text="${rents.car.production}"/>
-            <td th:border="1" th:text="${rents.car.year}"/>
+    <div class="container">
+        <h2>Cars</h2>
+        <div class="panel panel-default">
+            <div class="panel-body">
 
-        </tr>
-    </table>
+                <table class="table table-striped" th:if="${anycar}">
+                    <thead>
+                    <tr>
+                        <th>model</th>
+                        <th>brand</th>
+                        <th>year</th>
+                        <th>engine</th>
 
+
+                    </tr>
+                    </thead>
+
+                    <tr th:each="rents : ${rents}" th:if="${rents.active}">
+
+
+                        <td th:border="1" th:text="${rents.car.model}"/>
+                        <td th:border="1" th:text="${rents.car.brand.name}"/>
+                        <td th:border="1" th:text="${rents.car.production}"/>
+                        <td th:border="1" th:text="${rents.car.engine}"/>
+
+                    </tr>
+
+                </table>
+                <span th:unless="${anycar}">Nothing to show</span>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="container">
+        <h2>Edit your profile</h2>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form action="/profile/edit" onsubmit="return myFunction()" method="post">
+
+                    <input type="hidden" name="id" th:value="${name.id}"/>
+                    <input type="hidden" name="name" th:value="${name.name}"/>
+                    <input type="hidden" name="lastName" th:value="${name.lastName}"/>
+                    <input type="hidden" name="peselnum" th:value="${name.peselnum}"/>
+                    Phone number: <input class="form-control" th:required="required" th:value="${name.phoneNumber}"
+                                         type="text" name="phoneNumber"/><br/>
+                    Email: <input class="form-control" th:required="required" th:value="${name.mail}" type="text"
+                                  name="mail"/><br/>
+                    Password: <input class="form-control" id="pass1" th:required="required" type="password"
+                                     name="password"/><br/>
+                    Confirm password: <input class="form-control" id="pass2" th:required="required"
+                                             type="password"/><br/>
+
+                    <input type="submit" class="btn btn-success" value="Save"/>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
 </div>
 </body>
+<script>
+    function myFunction() {
+        var pass1 = document.getElementById("pass1").value;
+        var pass2 = document.getElementById("pass2").value;
+        var ok = true;
+        if (pass1 != pass2) {
+            alert("Passwords Do not match");
+            document.getElementById("pass1").style.borderColor = "#E34234";
+            document.getElementById("pass2").style.borderColor = "#E34234";
+            document.getElementById("pass1").value = '';
+            document.getElementById("pass2").value = '';
 
+            ok = false;
+        }
+
+        return ok;
+    }
+
+
+</script>
 </html>

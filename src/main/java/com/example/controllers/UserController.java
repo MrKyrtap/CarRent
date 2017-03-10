@@ -50,22 +50,29 @@ public class UserController {
                       HttpServletRequest request,
                       RedirectAttributes redirectAttrs) {
         User user2 = userRepository.findOne(user.getId());
+
         if (user2 != null){
             user.setPassword(user2.getPassword());
             user.setActive(user2.getActive());
             user.setRoles(user2.getRoles());
-         }else {
+            user.setPassword(bCryptPasswordEncoder.encode("dupa"));
+
+
+        }else {
+            //new user
             user.setPassword(bCryptPasswordEncoder.encode("dupa"));
             Role userRole = roleRepository.findByRole("USER");
             user.setRoles(new HashSet<>(Arrays.asList(userRole)));
             user.setActive(1);
         }
+
+
         if (!bindingResult.hasErrors()) {
             userRepository.save(user);
             redirectAttrs.addFlashAttribute("message", "Saved");
         } else {
             redirectAttrs.addFlashAttribute("message", "Not saved");
-            System.out.println("Your Message : " + bindingResult);
+            System.out.println("Your Message: " + bindingResult);
         }
 
         String referer = request.getHeader("Referer");
@@ -144,3 +151,4 @@ public class UserController {
         return generatedPassword;
     }
 }
+
