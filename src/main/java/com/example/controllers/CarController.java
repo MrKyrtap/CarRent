@@ -85,14 +85,9 @@ public class CarController {
             }catch (Exception e){
                 redirectAttrs.addFlashAttribute("message", "Not deleted : "+e.getMessage());
             }
-
-
         }else {
-
             redirectAttrs.addFlashAttribute("message", "Not deleted : status");
         }
-
-
 
         String referer = request.getHeader("Referer");
         return "redirect:" + referer;

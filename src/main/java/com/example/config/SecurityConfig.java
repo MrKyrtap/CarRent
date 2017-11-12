@@ -33,21 +33,7 @@ import java.util.List;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource datasource;
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-//                .inMemoryAuthentication()
-//                .withUser("user").password("user").roles("USER")
-//                .and()
-//                .withUser("admin").password("admin").roles("ADMIN");
-////
-////        JdbcUserDetailsManager userDetailsService = new JdbcUserDetailsManager();
-////        userDetailsService.setDataSource(datasource);
-////        PasswordEncoder encoder = new BCryptPasswordEncoder();
-////
-////        auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
-////        auth.jdbcAuthentication().dataSource(datasource);
-//    }
+
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -91,23 +77,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login").and().exceptionHandling();
               //  .accessDeniedPage("/access-denied");
     }
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests()
-//                .antMatchers("/user").hasRole("ADMIN")
-//                .antMatchers("/cars").hasRole("ADMIN")
-//                .antMatchers("/index").hasRole("ADMIN")
-//                .antMatchers("/panel").hasRole("USER")
-//               // .antMatchers("/**").permitAll()
-//                .antMatchers("/signup","/").permitAll()
-//                .anyRequest().authenticated() // 7
-//                .and()
-//                .formLogin()
-//                .defaultSuccessUrl("/panel/")
-//                .and()
-//                .logout()
-//                .and()
-//                .csrf().disable();
-//    }
+
 }
